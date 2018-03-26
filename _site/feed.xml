@@ -3,11 +3,180 @@
   <channel>
     <title>bith01ic blog</title>
     <description>bitholic blog</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 19 Mar 2018 22:50:37 +0800</pubDate>
-    <lastBuildDate>Mon, 19 Mar 2018 22:50:37 +0800</lastBuildDate>
+    <link>https://bitholic.org/</link>
+    <atom:link href="https://bitholic.org/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 26 Mar 2018 18:06:00 +0800</pubDate>
+    <lastBuildDate>Mon, 26 Mar 2018 18:06:00 +0800</lastBuildDate>
     <generator>Jekyll v3.3.0</generator>
+    
+      <item>
+        <title>How Java Threads Works</title>
+        <description>&lt;h1 id=&quot;how-java-threads-works&quot;&gt;How Java Threads Works&lt;/h1&gt;
+
+&lt;h2 id=&quot;1-线程简介&quot;&gt;1. 线程简介&lt;/h2&gt;
+
+&lt;h3 id=&quot;11-并发concurrency的历史&quot;&gt;1.1 并发（Concurrency）的历史：&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;在上古时期，那是的计算机还没有操作系统，程序只能从头到尾的运行并且能够获取计算机的所有资源。&lt;/li&gt;
+  &lt;li&gt;在操作系统出现以后，允许了多个程序作为不同的&lt;strong&gt;进程（processes）&lt;/strong&gt;同时运行，操作系统给进程分配资源，线程间可以通过sockets, signal, shared memory, files等进行通信。&lt;/li&gt;
+  &lt;li&gt;随着计算机程序复杂度的提高，同一个进程也需要在同时运行不同的任务，这就激发了线程（threads）的出现。线程允许在同一个进程内并发执行多个程序流，并且它们共享进程的资源。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;线程也被称为轻量级进程，在现代操作系统上，线程（而不是进程）往往作为CPU调度的基本单元。在现代的多核CPU上，线程能够做到真正意义上的同时运行（并行）。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;并发（Concurencey）：多个任务以时间片的方式在一段时间内交替运行（上下文切换），在指定时刻，还是只有一个任务在执行。&lt;/p&gt;
+
+  &lt;p&gt;而并行（Parallelism）：多个任务真正的同时运行。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;12-线程带来的风险&quot;&gt;1.2 线程带来的风险&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;安全问题：&lt;/li&gt;
+  &lt;li&gt;活性问题：&lt;/li&gt;
+  &lt;li&gt;性能问题：&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;2-java中的线程&quot;&gt;2. Java中的线程&lt;/h2&gt;
+
+&lt;p&gt;Java中线程是以类&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread&lt;/code&gt;来表示的，在Java中创建线程的唯一方式就是创建一个&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread&lt;/code&gt;的实例。可通过调用线程的&lt;code class=&quot;highlighter-rouge&quot;&gt;start()&lt;/code&gt;方法来启动这个线程。&lt;/p&gt;
+
+&lt;p&gt;没有正确同步的线程的行为往往会让人感到困扰。Java通过&lt;em&gt;Java programming language memory model&lt;/em&gt;(有时会简称为the memory model)的语义描述多线程的行为，这个语义并没有规定多线程程序应该怎样运行，而是描述了多线程程序运行时可被允许的行为表现。&lt;/p&gt;
+
+&lt;h3 id=&quot;21-同步synchronization&quot;&gt;2.1 同步（Synchronization）&lt;/h3&gt;
+
+&lt;p&gt;Java语言提供了多种进程间通信的机制，最常见也最基础的就是通过monitors实现的同步机制。Java中的每个对象都会与一个monitor相关联，线程可以&lt;em&gt;lock&lt;/em&gt;和&lt;em&gt;unlock&lt;/em&gt;这个monitor。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;线程lock了一个对象的monitor有时也称为线程拥有了monitor的锁或线程拥有了对象的锁，同样的，线程unlock一个对象的monitor也称为线程释放了monitor的锁或线程释放了对象的锁。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在同一个时刻只能有一个线程能够拥有对monitor的锁，其它尝试lock这个monitor的线程都会被阻塞直到他们能够获得到锁。同一个线程可以多次lock同一个monitor，每次unlock都会释放一次对monitor的锁。&lt;/p&gt;
+
+&lt;p&gt;Java中通过&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronized&lt;/code&gt;关键字来自动获取和释放monitor的锁，在&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronized&lt;/code&gt;修饰的方法或代码块开始运行时会自动尝试lock相应对象的monitor，只有lock操作成功才会接着往下执行，当方法或代码块（不管是正常还是非正常）执行完后，会自动unlock相应的monitor。&lt;/p&gt;
+
+&lt;p&gt;这里monitor对应的对象是：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是非静态方法，那么monitor对象是&lt;code class=&quot;highlighter-rouge&quot;&gt;this&lt;/code&gt;指向的对象。&lt;/li&gt;
+  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是静态方法，那么monitor对象是该类的&lt;code class=&quot;highlighter-rouge&quot;&gt;Class&lt;/code&gt;对象。&lt;/li&gt;
+  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是代码块，那么需要显示指定对象作为monitor对象。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;示例：&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Monitor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;staticLock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 1: 修饰非静态方法, monitor 对象是 this&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 2: 修饰非静态方法内部代码块, monitor 对象是 this, 等价于1&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;innerAdd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 3: 修饰非静态方法内部代码块并显示指定了 lock 为 monitor 对象&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;innerAddWithOtherMonitor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 4: 修饰静态方法, monitor 对象是 Monitor.cass&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;staticAdd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 5: 修饰静态方法内部方法块，monitor 对象是 Monitor.class, 等价于4&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;staticInnerAdd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Monitor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;// 6: 修饰静态方法内部方法块并显式指定了 staticLock 为 monitor 对象&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;staticInnerAddWithOtherMonitor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;staticLock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;22-wait-sets-and-notification&quot;&gt;2.2 Wait Sets and Notification&lt;/h3&gt;
+
+&lt;p&gt;Java 中每个对象除了都和一个 monitor 关联外, 还会和一个 wait set 相关联。wait set是一个线程集, 当一个对象新创建时，它的 wait set 是空的。添加线程到 wait set 和从 wait set 移除线程等基础操作都是原子的。wait set 状态受到以下几种方法影响：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;notify()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;notifyAll()&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;interruptions&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;221-wait&quot;&gt;2.2.1 Wait&lt;/h4&gt;
+
+&lt;p&gt;等待动作发生在 &lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;wait(long millisecs)&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;wait(long millisecs, int nanosecs)&lt;/code&gt; 方法被调用时，一个处在等待状态的线程可正常退出或通过抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常退出。&lt;/p&gt;
+
+&lt;p&gt;假设线程&lt;em&gt;t&lt;/em&gt; 将在对象&lt;em&gt;m&lt;/em&gt; 上执行了&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;方法（&lt;em&gt;n&lt;/em&gt; 是&lt;em&gt;t&lt;/em&gt; 在&lt;em&gt;m&lt;/em&gt; 上已获取锁的次数），那么会有下面几种情况发生：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果&lt;em&gt;n&lt;/em&gt; 是0， 那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;IllegalMonitorStateException&lt;/code&gt;异常&lt;/li&gt;
+  &lt;li&gt;如果是定时的&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;方法，&lt;code class=&quot;highlighter-rouge&quot;&gt;millisecs&lt;/code&gt;参数是负的或者&lt;code class=&quot;highlighter-rouge&quot;&gt;nanosecs&lt;/code&gt;参数不在0-999999范围内，那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;IllegalArgumentException&lt;/code&gt;异常&lt;/li&gt;
+  &lt;li&gt;如果线程&lt;em&gt;t&lt;/em&gt; 被interrupted，那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常，并且&lt;em&gt;t&lt;/em&gt; 的interruption status会被设置为false&lt;/li&gt;
+  &lt;li&gt;除去上面的情况，会发生:
+    &lt;ol&gt;
+      &lt;li&gt;线程&lt;em&gt;t&lt;/em&gt; 会被添加到&lt;em&gt;m&lt;/em&gt; 的 wait set 中，并释放对&lt;em&gt;m&lt;/em&gt; 的&lt;em&gt;n&lt;/em&gt; 次锁。&lt;/li&gt;
+      &lt;li&gt;线程&lt;em&gt;t&lt;/em&gt; 不会再执行任何操作直到它从&lt;em&gt;m&lt;/em&gt; 的 wait sets 里移除。线程会在以下动作发生时从 wait sets 中移除：
+        &lt;ul&gt;
+          &lt;li&gt;&lt;em&gt;m&lt;/em&gt; 的&lt;code class=&quot;highlighter-rouge&quot;&gt;notify()&lt;/code&gt;方法被调用，而&lt;em&gt;t&lt;/em&gt; 刚好作为被选中的线程。&lt;/li&gt;
+          &lt;li&gt;&lt;em&gt;m&lt;/em&gt; 的&lt;code class=&quot;highlighter-rouge&quot;&gt;notifyAll()&lt;/code&gt;方法被调用&lt;/li&gt;
+          &lt;li&gt;线程&lt;em&gt;t&lt;/em&gt; 的interrupt动作发生&lt;/li&gt;
+          &lt;li&gt;带超时的&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;在超时时&lt;/li&gt;
+          &lt;li&gt;虚假唤醒（spurious wake-ups），为了避免虚假唤醒，一般将判断条件放到循环中。&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;线程&lt;em&gt;t&lt;/em&gt; 再对 &lt;em&gt;m&lt;/em&gt; 进行 &lt;em&gt;n&lt;/em&gt; 次锁。&lt;/li&gt;
+      &lt;li&gt;如果线程&lt;em&gt;t&lt;/em&gt; 是因为 interrupt 而从 wait set 中移除，那么线程&lt;em&gt;t&lt;/em&gt; 的interruption status会被设置为 false ，并抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;。&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;222&quot;&gt;2.2.2&lt;/h4&gt;
+
+&lt;h2 id=&quot;参考文献&quot;&gt;参考文献&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;em&gt;The Java Language Specifications Java SE 10 edition&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Java concurrency in practice&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;Thinking in Java 4th edition&lt;/em&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        <pubDate>Mon, 26 Mar 2018 00:00:00 +0800</pubDate>
+        <link>https://bitholic.org/2018/03/26/how-java-threads-works/</link>
+        <guid isPermaLink="true">https://bitholic.org/2018/03/26/how-java-threads-works/</guid>
+        
+        <category>Java</category>
+        
+        <category>并发</category>
+        
+        
+      </item>
     
       <item>
         <title>Example Post</title>
@@ -73,8 +242,8 @@
 译者 &lt;a href=&quot;http://weibo.com/huxpro&quot;&gt;黄玄&lt;/a&gt;，首次发布于 &lt;a href=&quot;http://huangxuan.me&quot;&gt;Hux Blog&lt;/a&gt;，转载请保留以上链接&lt;/p&gt;
 </description>
         <pubDate>Tue, 22 Sep 2015 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2015/09/22/js-version/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/09/22/js-version/</guid>
+        <link>https://bitholic.org/2015/09/22/js-version/</link>
+        <guid isPermaLink="true">https://bitholic.org/2015/09/22/js-version/</guid>
         
         <category>前端开发</category>
         
@@ -120,8 +289,8 @@
 &lt;p&gt;&lt;a href=&quot;http://lab.hakim.se/reveal-js&quot;&gt;Reveal.js&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 09 Jul 2015 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2015/07/09/js-module-7day/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/07/09/js-module-7day/</guid>
+        <link>https://bitholic.org/2015/07/09/js-module-7day/</link>
+        <guid isPermaLink="true">https://bitholic.org/2015/07/09/js-module-7day/</guid>
         
         <category>前端开发</category>
         
@@ -447,8 +616,8 @@
 &lt;/blockquote&gt;
 </description>
         <pubDate>Mon, 25 May 2015 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2015/05/25/js-module-loader/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/05/25/js-module-loader/</guid>
+        <link>https://bitholic.org/2015/05/25/js-module-loader/</link>
+        <guid isPermaLink="true">https://bitholic.org/2015/05/25/js-module-loader/</guid>
         
         <category>前端开发</category>
         
@@ -735,8 +904,8 @@ Android’s source code is released by Google under open source licenses, althou
 &lt;p&gt;For Detail, Chromium OS based on &lt;a href=&quot;http://en.wikipedia.org/wiki/Gentoo_Linux&quot;&gt;Gentoo Linux&lt;/a&gt;, emm…&lt;/p&gt;
 </description>
         <pubDate>Tue, 14 Apr 2015 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2015/04/14/unix-linux-note/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/04/14/unix-linux-note/</guid>
+        <link>https://bitholic.org/2015/04/14/unix-linux-note/</link>
+        <guid isPermaLink="true">https://bitholic.org/2015/04/14/unix-linux-note/</guid>
         
         <category>OS</category>
         
@@ -817,8 +986,8 @@ Android’s source code is released by Google under open source licenses, althou
 &lt;p&gt;—— Hux 后记于 2015.10&lt;/p&gt;
 </description>
         <pubDate>Thu, 29 Jan 2015 20:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2015/01/29/hello-2015/</link>
-        <guid isPermaLink="true">http://localhost:4000/2015/01/29/hello-2015/</guid>
+        <link>https://bitholic.org/2015/01/29/hello-2015/</link>
+        <guid isPermaLink="true">https://bitholic.org/2015/01/29/hello-2015/</guid>
         
         <category>生活</category>
         
