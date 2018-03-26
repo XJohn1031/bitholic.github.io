@@ -5,8 +5,8 @@
     <description>bitholic blog</description>
     <link>https://bitholic.org/</link>
     <atom:link href="https://bitholic.org/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 26 Mar 2018 18:06:00 +0800</pubDate>
-    <lastBuildDate>Mon, 26 Mar 2018 18:06:00 +0800</lastBuildDate>
+    <pubDate>Tue, 27 Mar 2018 01:06:52 +0800</pubDate>
+    <lastBuildDate>Tue, 27 Mar 2018 01:06:52 +0800</lastBuildDate>
     <generator>Jekyll v3.3.0</generator>
     
       <item>
@@ -28,7 +28,7 @@
 &lt;blockquote&gt;
   &lt;p&gt;并发（Concurencey）：多个任务以时间片的方式在一段时间内交替运行（上下文切换），在指定时刻，还是只有一个任务在执行。&lt;/p&gt;
 
-  &lt;p&gt;而并行（Parallelism）：多个任务真正的同时运行。&lt;/p&gt;
+  &lt;p&gt;并行（Parallelism）：多个任务真正的同时运行。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;h3 id=&quot;12-线程带来的风险&quot;&gt;1.2 线程带来的风险&lt;/h3&gt;
@@ -47,22 +47,22 @@
 
 &lt;h3 id=&quot;21-同步synchronization&quot;&gt;2.1 同步（Synchronization）&lt;/h3&gt;
 
-&lt;p&gt;Java语言提供了多种进程间通信的机制，最常见也最基础的就是通过monitors实现的同步机制。Java中的每个对象都会与一个monitor相关联，线程可以&lt;em&gt;lock&lt;/em&gt;和&lt;em&gt;unlock&lt;/em&gt;这个monitor。&lt;/p&gt;
+&lt;p&gt;Java 语言提供了多种线程间通信的机制，最常见也最基础的就是通过 monitors 实现的同步机制。Java 中的每个对象都会与一个 monitor 相关联，线程可以 &lt;em&gt;lock&lt;/em&gt; 和 &lt;em&gt;unlock&lt;/em&gt; 这个 monitor。&lt;/p&gt;
 
 &lt;blockquote&gt;
-  &lt;p&gt;线程lock了一个对象的monitor有时也称为线程拥有了monitor的锁或线程拥有了对象的锁，同样的，线程unlock一个对象的monitor也称为线程释放了monitor的锁或线程释放了对象的锁。&lt;/p&gt;
+  &lt;p&gt;线程 lock 了一个对象的 monitor 有时也称为线程拥有了 monitor 的锁或线程拥有了对象的锁，同样，线程 unlock 一个对象的 monitor 也称为线程释放了 monitor 的锁或线程释放了对象的锁。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;在同一个时刻只能有一个线程能够拥有对monitor的锁，其它尝试lock这个monitor的线程都会被阻塞直到他们能够获得到锁。同一个线程可以多次lock同一个monitor，每次unlock都会释放一次对monitor的锁。&lt;/p&gt;
+&lt;p&gt;在同一个时刻只能有一个线程能够拥有对 monitor 的锁，其它尝试 lock 这个 monitor 的线程都会被阻塞直到他们能够获得到锁。同一个线程可以多次 lock 同一个 monitor，每次 unlock都会释放一次对 monitor 的锁。&lt;/p&gt;
 
-&lt;p&gt;Java中通过&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronized&lt;/code&gt;关键字来自动获取和释放monitor的锁，在&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronized&lt;/code&gt;修饰的方法或代码块开始运行时会自动尝试lock相应对象的monitor，只有lock操作成功才会接着往下执行，当方法或代码块（不管是正常还是非正常）执行完后，会自动unlock相应的monitor。&lt;/p&gt;
+&lt;p&gt;Java 中通过&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronized&lt;/code&gt;关键字来自动获取和释放 monitor 的锁，在&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronized&lt;/code&gt;修饰的方法或代码块开始运行时会自动尝试 lock 相应对象的 monitor，只有 lock 操作成功才会接着往下执行，当方法或代码块（不管是正常还是非正常）执行完后，会自动 unlock 相应的 monitor。&lt;/p&gt;
 
-&lt;p&gt;这里monitor对应的对象是：&lt;/p&gt;
+&lt;p&gt;这里 monitor 对应的对象是：&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是非静态方法，那么monitor对象是&lt;code class=&quot;highlighter-rouge&quot;&gt;this&lt;/code&gt;指向的对象。&lt;/li&gt;
-  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是静态方法，那么monitor对象是该类的&lt;code class=&quot;highlighter-rouge&quot;&gt;Class&lt;/code&gt;对象。&lt;/li&gt;
-  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是代码块，那么需要显示指定对象作为monitor对象。&lt;/li&gt;
+  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是非静态方法，那么 monitor 对象是&lt;code class=&quot;highlighter-rouge&quot;&gt;this&lt;/code&gt;指向的对象。&lt;/li&gt;
+  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是静态方法，那么 monitor 对象是该类的&lt;code class=&quot;highlighter-rouge&quot;&gt;Class&lt;/code&gt;对象。&lt;/li&gt;
+  &lt;li&gt;如果&lt;code class=&quot;highlighter-rouge&quot;&gt;synchronzied&lt;/code&gt;修饰的是代码块，那么需要显示指定对象作为 monitor 对象。&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;示例：&lt;/p&gt;
@@ -138,7 +138,7 @@
 &lt;ul&gt;
   &lt;li&gt;如果&lt;em&gt;n&lt;/em&gt; 是0， 那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;IllegalMonitorStateException&lt;/code&gt;异常&lt;/li&gt;
   &lt;li&gt;如果是定时的&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;方法，&lt;code class=&quot;highlighter-rouge&quot;&gt;millisecs&lt;/code&gt;参数是负的或者&lt;code class=&quot;highlighter-rouge&quot;&gt;nanosecs&lt;/code&gt;参数不在0-999999范围内，那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;IllegalArgumentException&lt;/code&gt;异常&lt;/li&gt;
-  &lt;li&gt;如果线程&lt;em&gt;t&lt;/em&gt; 被interrupted，那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常，并且&lt;em&gt;t&lt;/em&gt; 的interruption status会被设置为false&lt;/li&gt;
+  &lt;li&gt;如果线程&lt;em&gt;t&lt;/em&gt; 被interrupted，那么会抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常，并且&lt;em&gt;t&lt;/em&gt; 的 interruption status会被设置为 false&lt;/li&gt;
   &lt;li&gt;除去上面的情况，会发生:
     &lt;ol&gt;
       &lt;li&gt;线程&lt;em&gt;t&lt;/em&gt; 会被添加到&lt;em&gt;m&lt;/em&gt; 的 wait set 中，并释放对&lt;em&gt;m&lt;/em&gt; 的&lt;em&gt;n&lt;/em&gt; 次锁。&lt;/li&gt;
@@ -152,14 +152,163 @@
         &lt;/ul&gt;
       &lt;/li&gt;
       &lt;li&gt;线程&lt;em&gt;t&lt;/em&gt; 再对 &lt;em&gt;m&lt;/em&gt; 进行 &lt;em&gt;n&lt;/em&gt; 次锁。&lt;/li&gt;
-      &lt;li&gt;如果线程&lt;em&gt;t&lt;/em&gt; 是因为 interrupt 而从 wait set 中移除，那么线程&lt;em&gt;t&lt;/em&gt; 的interruption status会被设置为 false ，并抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;。&lt;/li&gt;
+      &lt;li&gt;如果线程&lt;em&gt;t&lt;/em&gt; 是因为 interrupt 而从 wait set 中移除，那么线程&lt;em&gt;t&lt;/em&gt; 的interruption status会被设置为 false ，并抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常。&lt;/li&gt;
     &lt;/ol&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&quot;222&quot;&gt;2.2.2&lt;/h4&gt;
+&lt;h4 id=&quot;222-notification&quot;&gt;2.2.2 Notification&lt;/h4&gt;
 
-&lt;h2 id=&quot;参考文献&quot;&gt;参考文献&lt;/h2&gt;
+&lt;p&gt;通知动作发生在 &lt;code class=&quot;highlighter-rouge&quot;&gt;notify()&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;notifyAll()&lt;/code&gt; 方法被调用时，继续上面线程的例子说明通知动作发生时的状况：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;如果 &lt;em&gt;n&lt;/em&gt; 是0，那么抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;IllegalMonitorStateException&lt;/code&gt;异常&lt;/li&gt;
+  &lt;li&gt;如果 &lt;em&gt;n&lt;/em&gt; 大于0并且是&lt;code class=&quot;highlighter-rouge&quot;&gt;notify()&lt;/code&gt;动作，那么如果 &lt;em&gt;m&lt;/em&gt; 的 wait set 不是空的，那么会从 wait set 随机移除一个线程 &lt;em&gt;u&lt;/em&gt;&lt;/li&gt;
+  &lt;li&gt;若果 &lt;em&gt;n&lt;/em&gt; 大于0并且是&lt;code class=&quot;highlighter-rouge&quot;&gt;notifyAll()&lt;/code&gt;动作，那么 &lt;em&gt;m&lt;/em&gt; 的 wait set 中的所有线程都会被移除，注意虽然 wait set 中所有的线程都会被唤醒，但是在任意时刻只有一个线程能够重新获得 monitor 的锁。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;223-interruptions&quot;&gt;2.2.3 Interruptions&lt;/h4&gt;
+
+&lt;p&gt;中断动作发生在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.interrupt()&lt;/code&gt; 方法被调用时，假设线程&lt;em&gt;t&lt;/em&gt; 会调用线程&lt;em&gt;u&lt;/em&gt; 的&lt;code class=&quot;highlighter-rouge&quot;&gt;u.interrupt()&lt;/code&gt;，其中的&lt;em&gt;t&lt;/em&gt; 和&lt;em&gt;u&lt;/em&gt; 可以是同一个线程，中断动作会将线程&lt;em&gt;u&lt;/em&gt; 的中断标志（interruption status）设置为true。其次如果线程在某个对象 &lt;em&gt;m&lt;/em&gt; 的 wait set 里，那么 &lt;em&gt;u&lt;/em&gt; 将从这个 wait set 里移除，这样会使 &lt;em&gt;u&lt;/em&gt; 从睡眠状态被唤醒，重新获得 &lt;em&gt;m&lt;/em&gt; 的 monitor 锁后抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.isInterrupted()&lt;/code&gt; 可以获取线程的中断状态，&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.interrupted()&lt;/code&gt; 可以获取线程的中断状态并重置中断状态为false。&lt;/p&gt;
+
+&lt;h4 id=&quot;224-waits-notification-和-interruption-的交互&quot;&gt;2.2.4 Waits, Notification 和 Interruption 的交互&lt;/h4&gt;
+
+&lt;p&gt;如果一个处于 waiting 状态的线程同时收到了通知动作和中断动作，那么它可能会发生：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;从&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;中正常返回，挂起interrupt动作（此时调用&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.interrupted()&lt;/code&gt;会返回 true ）&lt;/li&gt;
+  &lt;li&gt;从&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;中返回并抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;同样，通知动作也不会因为中断而丢失，假定一个线程集&lt;em&gt;s&lt;/em&gt; 在对象&lt;em&gt;m&lt;/em&gt; 的 wait set 里，另外一个线程调用了 &lt;em&gt;m&lt;/em&gt; 的&lt;code class=&quot;highlighter-rouge&quot;&gt;notify()&lt;/code&gt;方法，则可能会发生：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;em&gt;s&lt;/em&gt; 中至少有一个线程正常返回；&lt;/li&gt;
+  &lt;li&gt;&lt;em&gt;s&lt;/em&gt; 中的所有线程都返回并抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;注意一个线程如果同时被&lt;code class=&quot;highlighter-rouge&quot;&gt;notify()&lt;/code&gt;中断或唤醒，那么该线程会返回并抛出&lt;code class=&quot;highlighter-rouge&quot;&gt;InterruptedException&lt;/code&gt;异常，这时 wait set 里的另外一个线程需要被通知。&lt;/p&gt;
+
+&lt;h3 id=&quot;sleep-and-yield&quot;&gt;Sleep and Yield&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.sleep()&lt;/code&gt; 会使当前运行的线程睡眠（暂停执行）一段时间，但不会释放已拥有的 monitor 的锁。值得注意的是&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.sleep()&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.yield()&lt;/code&gt;都没有保证同步机制，比如编译器可能不会将寄存器上已写的值保存到内存中去，也不会保证在调用&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.sleep()&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;Thread.yield()&lt;/code&gt;后重新载入值。&lt;/p&gt;
+
+&lt;h3 id=&quot;线程状态&quot;&gt;线程状态&lt;/h3&gt;
+
+&lt;p&gt;Java 给线程定义了6种状态：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;NEW: 新建，一个线程被创建但是还未调用其&lt;code class=&quot;highlighter-rouge&quot;&gt;start()&lt;/code&gt;方法时的状态&lt;/li&gt;
+  &lt;li&gt;RUNNABLE: 可运行，一个线程在JVM中运行时的状态&lt;/li&gt;
+  &lt;li&gt;BLOCKED: 阻塞，一个线程因为等待获取 monitor 的锁而被阻塞时的状态&lt;/li&gt;
+  &lt;li&gt;WAITING: 等待，一个线程无限期的等待其他线程对其进行特定操作时的状态，比如调用没有带时间参数的&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;join()&lt;/code&gt;方法&lt;/li&gt;
+  &lt;li&gt;TIEMED_WAITING: 带超时的等待，一个线程在一定时间范围内等待其他线程对其进行特定操作时的状态，比如调用带时间参数的&lt;code class=&quot;highlighter-rouge&quot;&gt;wait()&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;sleep()&lt;/code&gt;或&lt;code class=&quot;highlighter-rouge&quot;&gt;join()&lt;/code&gt;方法&lt;/li&gt;
+  &lt;li&gt;TERMINATED: 终止，一个线程退出后所处的状态&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;示例：&lt;/p&gt;
+
+&lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;java.util.concurrent.TimeUnit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ThreadStatus&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;TimeUnit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;SECONDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InterruptedException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;interrupted&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;waitNotify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InterruptedException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;interrupted&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;synchronized&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;waitNotifyWithTimeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;wait&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5000&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;InterruptedException&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ex&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;interrupted&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;throws&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kd&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ThreadStatus&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;threadStatus&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ThreadStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;NEW&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;RUNNABLE&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;MAX_VALUE&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;lockThread&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;ThreadStatus:&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread3&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;BLOCKED&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;ThreadStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;lock&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread4&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;WAITING&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;threadStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;waitNotify&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread5&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TIMED_WAITING&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;threadStatus&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;waitNotifyWithTimeout&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread6&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Thread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;TERMINATED&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;});&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;thread2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;lockThread&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;thread3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;thread4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;thread5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;thread6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;TimeUnit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;MILLISECONDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;sleep&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;thread1 state: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;thread2 state: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;thread3 state: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;thread4 state: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;thread5 state: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;thread6 state: &quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thread6&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;thread4&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;interrupt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;thread5&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;interrupt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;其输出为:&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;...
+thread1 state: NEW
+thread2 state: RUNNABLE
+thread3 state: BLOCKED
+thread4 state: WAITING
+thread5 state: TIMED_WAITING
+thread6 state: TERMINATED
+...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;参考资料&quot;&gt;参考资料&lt;/h2&gt;
 
 &lt;ol&gt;
   &lt;li&gt;&lt;em&gt;The Java Language Specifications Java SE 10 edition&lt;/em&gt;&lt;/li&gt;
@@ -171,9 +320,11 @@
         <link>https://bitholic.org/2018/03/26/how-java-threads-works/</link>
         <guid isPermaLink="true">https://bitholic.org/2018/03/26/how-java-threads-works/</guid>
         
+        <category>Concurrency</category>
+        
         <category>Java</category>
         
-        <category>并发</category>
+        <category>Threads</category>
         
         
       </item>

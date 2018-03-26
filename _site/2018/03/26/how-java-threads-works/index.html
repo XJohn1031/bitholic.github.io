@@ -142,15 +142,17 @@
                 <div class="post-heading">
                     <div class="tags">
                         
+                        <a class="tag" href="/tags/#Concurrency" title="Concurrency">Concurrency</a>
+                        
                         <a class="tag" href="/tags/#Java" title="Java">Java</a>
                         
-                        <a class="tag" href="/tags/#并发" title="并发">并发</a>
+                        <a class="tag" href="/tags/#Threads" title="Threads">Threads</a>
                         
                     </div>
                     <h1>How Java Threads Works</h1>
                     
                     
-                    <h2 class="subheading"></h2>
+                    <h2 class="subheading">理解Java线程的工作方式</h2>
                     
                     <span class="meta">Posted by bith01ic on March 26, 2018</span>
                 </div>
@@ -187,7 +189,7 @@
 <blockquote>
   <p>并发（Concurencey）：多个任务以时间片的方式在一段时间内交替运行（上下文切换），在指定时刻，还是只有一个任务在执行。</p>
 
-  <p>而并行（Parallelism）：多个任务真正的同时运行。</p>
+  <p>并行（Parallelism）：多个任务真正的同时运行。</p>
 </blockquote>
 
 <h3 id="12-线程带来的风险">1.2 线程带来的风险</h3>
@@ -206,22 +208,22 @@
 
 <h3 id="21-同步synchronization">2.1 同步（Synchronization）</h3>
 
-<p>Java语言提供了多种进程间通信的机制，最常见也最基础的就是通过monitors实现的同步机制。Java中的每个对象都会与一个monitor相关联，线程可以<em>lock</em>和<em>unlock</em>这个monitor。</p>
+<p>Java 语言提供了多种线程间通信的机制，最常见也最基础的就是通过 monitors 实现的同步机制。Java 中的每个对象都会与一个 monitor 相关联，线程可以 <em>lock</em> 和 <em>unlock</em> 这个 monitor。</p>
 
 <blockquote>
-  <p>线程lock了一个对象的monitor有时也称为线程拥有了monitor的锁或线程拥有了对象的锁，同样的，线程unlock一个对象的monitor也称为线程释放了monitor的锁或线程释放了对象的锁。</p>
+  <p>线程 lock 了一个对象的 monitor 有时也称为线程拥有了 monitor 的锁或线程拥有了对象的锁，同样，线程 unlock 一个对象的 monitor 也称为线程释放了 monitor 的锁或线程释放了对象的锁。</p>
 </blockquote>
 
-<p>在同一个时刻只能有一个线程能够拥有对monitor的锁，其它尝试lock这个monitor的线程都会被阻塞直到他们能够获得到锁。同一个线程可以多次lock同一个monitor，每次unlock都会释放一次对monitor的锁。</p>
+<p>在同一个时刻只能有一个线程能够拥有对 monitor 的锁，其它尝试 lock 这个 monitor 的线程都会被阻塞直到他们能够获得到锁。同一个线程可以多次 lock 同一个 monitor，每次 unlock都会释放一次对 monitor 的锁。</p>
 
-<p>Java中通过<code class="highlighter-rouge">synchronized</code>关键字来自动获取和释放monitor的锁，在<code class="highlighter-rouge">synchronized</code>修饰的方法或代码块开始运行时会自动尝试lock相应对象的monitor，只有lock操作成功才会接着往下执行，当方法或代码块（不管是正常还是非正常）执行完后，会自动unlock相应的monitor。</p>
+<p>Java 中通过<code class="highlighter-rouge">synchronized</code>关键字来自动获取和释放 monitor 的锁，在<code class="highlighter-rouge">synchronized</code>修饰的方法或代码块开始运行时会自动尝试 lock 相应对象的 monitor，只有 lock 操作成功才会接着往下执行，当方法或代码块（不管是正常还是非正常）执行完后，会自动 unlock 相应的 monitor。</p>
 
-<p>这里monitor对应的对象是：</p>
+<p>这里 monitor 对应的对象是：</p>
 
 <ul>
-  <li>如果<code class="highlighter-rouge">synchronzied</code>修饰的是非静态方法，那么monitor对象是<code class="highlighter-rouge">this</code>指向的对象。</li>
-  <li>如果<code class="highlighter-rouge">synchronzied</code>修饰的是静态方法，那么monitor对象是该类的<code class="highlighter-rouge">Class</code>对象。</li>
-  <li>如果<code class="highlighter-rouge">synchronzied</code>修饰的是代码块，那么需要显示指定对象作为monitor对象。</li>
+  <li>如果<code class="highlighter-rouge">synchronzied</code>修饰的是非静态方法，那么 monitor 对象是<code class="highlighter-rouge">this</code>指向的对象。</li>
+  <li>如果<code class="highlighter-rouge">synchronzied</code>修饰的是静态方法，那么 monitor 对象是该类的<code class="highlighter-rouge">Class</code>对象。</li>
+  <li>如果<code class="highlighter-rouge">synchronzied</code>修饰的是代码块，那么需要显示指定对象作为 monitor 对象。</li>
 </ul>
 
 <p>示例：</p>
@@ -297,7 +299,7 @@
 <ul>
   <li>如果<em>n</em> 是0， 那么会抛出<code class="highlighter-rouge">IllegalMonitorStateException</code>异常</li>
   <li>如果是定时的<code class="highlighter-rouge">wait()</code>方法，<code class="highlighter-rouge">millisecs</code>参数是负的或者<code class="highlighter-rouge">nanosecs</code>参数不在0-999999范围内，那么会抛出<code class="highlighter-rouge">IllegalArgumentException</code>异常</li>
-  <li>如果线程<em>t</em> 被interrupted，那么会抛出<code class="highlighter-rouge">InterruptedException</code>异常，并且<em>t</em> 的interruption status会被设置为false</li>
+  <li>如果线程<em>t</em> 被interrupted，那么会抛出<code class="highlighter-rouge">InterruptedException</code>异常，并且<em>t</em> 的 interruption status会被设置为 false</li>
   <li>除去上面的情况，会发生:
     <ol>
       <li>线程<em>t</em> 会被添加到<em>m</em> 的 wait set 中，并释放对<em>m</em> 的<em>n</em> 次锁。</li>
@@ -311,14 +313,163 @@
         </ul>
       </li>
       <li>线程<em>t</em> 再对 <em>m</em> 进行 <em>n</em> 次锁。</li>
-      <li>如果线程<em>t</em> 是因为 interrupt 而从 wait set 中移除，那么线程<em>t</em> 的interruption status会被设置为 false ，并抛出<code class="highlighter-rouge">InterruptedException</code>。</li>
+      <li>如果线程<em>t</em> 是因为 interrupt 而从 wait set 中移除，那么线程<em>t</em> 的interruption status会被设置为 false ，并抛出<code class="highlighter-rouge">InterruptedException</code>异常。</li>
     </ol>
   </li>
 </ul>
 
-<h4 id="222">2.2.2</h4>
+<h4 id="222-notification">2.2.2 Notification</h4>
 
-<h2 id="参考文献">参考文献</h2>
+<p>通知动作发生在 <code class="highlighter-rouge">notify()</code> 或 <code class="highlighter-rouge">notifyAll()</code> 方法被调用时，继续上面线程的例子说明通知动作发生时的状况：</p>
+
+<ul>
+  <li>如果 <em>n</em> 是0，那么抛出<code class="highlighter-rouge">IllegalMonitorStateException</code>异常</li>
+  <li>如果 <em>n</em> 大于0并且是<code class="highlighter-rouge">notify()</code>动作，那么如果 <em>m</em> 的 wait set 不是空的，那么会从 wait set 随机移除一个线程 <em>u</em></li>
+  <li>若果 <em>n</em> 大于0并且是<code class="highlighter-rouge">notifyAll()</code>动作，那么 <em>m</em> 的 wait set 中的所有线程都会被移除，注意虽然 wait set 中所有的线程都会被唤醒，但是在任意时刻只有一个线程能够重新获得 monitor 的锁。</li>
+</ul>
+
+<h4 id="223-interruptions">2.2.3 Interruptions</h4>
+
+<p>中断动作发生在 <code class="highlighter-rouge">Thread.interrupt()</code> 方法被调用时，假设线程<em>t</em> 会调用线程<em>u</em> 的<code class="highlighter-rouge">u.interrupt()</code>，其中的<em>t</em> 和<em>u</em> 可以是同一个线程，中断动作会将线程<em>u</em> 的中断标志（interruption status）设置为true。其次如果线程在某个对象 <em>m</em> 的 wait set 里，那么 <em>u</em> 将从这个 wait set 里移除，这样会使 <em>u</em> 从睡眠状态被唤醒，重新获得 <em>m</em> 的 monitor 锁后抛出<code class="highlighter-rouge">InterruptedException</code>异常。</p>
+
+<p><code class="highlighter-rouge">Thread.isInterrupted()</code> 可以获取线程的中断状态，<code class="highlighter-rouge">Thread.interrupted()</code> 可以获取线程的中断状态并重置中断状态为false。</p>
+
+<h4 id="224-waits-notification-和-interruption-的交互">2.2.4 Waits, Notification 和 Interruption 的交互</h4>
+
+<p>如果一个处于 waiting 状态的线程同时收到了通知动作和中断动作，那么它可能会发生：</p>
+
+<ol>
+  <li>从<code class="highlighter-rouge">wait()</code>中正常返回，挂起interrupt动作（此时调用<code class="highlighter-rouge">Thread.interrupted()</code>会返回 true ）</li>
+  <li>从<code class="highlighter-rouge">wait()</code>中返回并抛出<code class="highlighter-rouge">InterruptedException</code>异常</li>
+</ol>
+
+<p>同样，通知动作也不会因为中断而丢失，假定一个线程集<em>s</em> 在对象<em>m</em> 的 wait set 里，另外一个线程调用了 <em>m</em> 的<code class="highlighter-rouge">notify()</code>方法，则可能会发生：</p>
+
+<ol>
+  <li><em>s</em> 中至少有一个线程正常返回；</li>
+  <li><em>s</em> 中的所有线程都返回并抛出<code class="highlighter-rouge">InterruptedException</code>异常。</li>
+</ol>
+
+<p>注意一个线程如果同时被<code class="highlighter-rouge">notify()</code>中断或唤醒，那么该线程会返回并抛出<code class="highlighter-rouge">InterruptedException</code>异常，这时 wait set 里的另外一个线程需要被通知。</p>
+
+<h3 id="sleep-and-yield">Sleep and Yield</h3>
+
+<p><code class="highlighter-rouge">Thread.sleep()</code> 会使当前运行的线程睡眠（暂停执行）一段时间，但不会释放已拥有的 monitor 的锁。值得注意的是<code class="highlighter-rouge">Thread.sleep()</code>和<code class="highlighter-rouge">Thread.yield()</code>都没有保证同步机制，比如编译器可能不会将寄存器上已写的值保存到内存中去，也不会保证在调用<code class="highlighter-rouge">Thread.sleep()</code>或<code class="highlighter-rouge">Thread.yield()</code>后重新载入值。</p>
+
+<h3 id="线程状态">线程状态</h3>
+
+<p>Java 给线程定义了6种状态：</p>
+
+<ul>
+  <li>NEW: 新建，一个线程被创建但是还未调用其<code class="highlighter-rouge">start()</code>方法时的状态</li>
+  <li>RUNNABLE: 可运行，一个线程在JVM中运行时的状态</li>
+  <li>BLOCKED: 阻塞，一个线程因为等待获取 monitor 的锁而被阻塞时的状态</li>
+  <li>WAITING: 等待，一个线程无限期的等待其他线程对其进行特定操作时的状态，比如调用没有带时间参数的<code class="highlighter-rouge">wait()</code>或<code class="highlighter-rouge">join()</code>方法</li>
+  <li>TIEMED_WAITING: 带超时的等待，一个线程在一定时间范围内等待其他线程对其进行特定操作时的状态，比如调用带时间参数的<code class="highlighter-rouge">wait()</code>、<code class="highlighter-rouge">sleep()</code>或<code class="highlighter-rouge">join()</code>方法</li>
+  <li>TERMINATED: 终止，一个线程退出后所处的状态</li>
+</ul>
+
+<p>示例：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.concurrent.TimeUnit</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ThreadStatus</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">lock</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"interrupted"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">waitNotify</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"interrupted"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">synchronized</span> <span class="kt">void</span> <span class="nf">waitNotifyWithTimeout</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">wait</span><span class="o">(</span><span class="mi">5000</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"interrupted"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">ThreadStatus</span> <span class="n">threadStatus</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadStatus</span><span class="o">();</span>
+        <span class="n">Thread</span> <span class="n">thread1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"NEW"</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="n">Thread</span> <span class="n">thread2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"RUNNABLE"</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">/</span> <span class="n">i</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="n">Thread</span> <span class="n">lockThread</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="nl">ThreadStatus:</span><span class="o">:</span><span class="n">lock</span><span class="o">);</span>
+
+        <span class="n">Thread</span> <span class="n">thread3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"BLOCKED"</span><span class="o">);</span>
+            <span class="n">ThreadStatus</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+        <span class="o">});</span>
+
+        <span class="n">Thread</span> <span class="n">thread4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"WAITING"</span><span class="o">);</span>
+            <span class="n">threadStatus</span><span class="o">.</span><span class="na">waitNotify</span><span class="o">();</span>
+        <span class="o">});</span>
+
+        <span class="n">Thread</span> <span class="n">thread5</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"TIMED_WAITING"</span><span class="o">);</span>
+            <span class="n">threadStatus</span><span class="o">.</span><span class="na">waitNotifyWithTimeout</span><span class="o">();</span>
+        <span class="o">});</span>
+
+        <span class="n">Thread</span> <span class="n">thread6</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"TERMINATED"</span><span class="o">);</span>
+        <span class="o">});</span>
+
+        <span class="n">thread2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">lockThread</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">thread3</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">thread4</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">thread5</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">thread6</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">TimeUnit</span><span class="o">.</span><span class="na">MILLISECONDS</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread1 state: "</span> <span class="o">+</span> <span class="n">thread1</span><span class="o">.</span><span class="na">getState</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread2 state: "</span> <span class="o">+</span> <span class="n">thread2</span><span class="o">.</span><span class="na">getState</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread3 state: "</span> <span class="o">+</span> <span class="n">thread3</span><span class="o">.</span><span class="na">getState</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread4 state: "</span> <span class="o">+</span> <span class="n">thread4</span><span class="o">.</span><span class="na">getState</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread5 state: "</span> <span class="o">+</span> <span class="n">thread5</span><span class="o">.</span><span class="na">getState</span><span class="o">());</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"thread6 state: "</span> <span class="o">+</span> <span class="n">thread6</span><span class="o">.</span><span class="na">getState</span><span class="o">());</span>
+        <span class="n">thread4</span><span class="o">.</span><span class="na">interrupt</span><span class="o">();</span>
+        <span class="n">thread5</span><span class="o">.</span><span class="na">interrupt</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>其输出为:</p>
+
+<div class="language-shell highlighter-rouge"><pre class="highlight"><code>...
+thread1 state: NEW
+thread2 state: RUNNABLE
+thread3 state: BLOCKED
+thread4 state: WAITING
+thread5 state: TIMED_WAITING
+thread6 state: TERMINATED
+...
+</code></pre>
+</div>
+
+<h2 id="参考资料">参考资料</h2>
 
 <ol>
   <li><em>The Java Language Specifications Java SE 10 edition</em></li>
