@@ -1,14 +1,13 @@
 ---
 layout:     post
 title:      "How Java Threads Works"
-subtitle:   "理解Java线程的工作方式"
+subtitle:   "理解Java中线程的工作方式"
 date:       2018-03-26
 author:     "bith01ic"
-header-img: "img/how_java_threads_workds_bg.jpg"
+header-img: ""
 tags:
     - Concurrency
     - Java
-    - Threads
 ---
 
 

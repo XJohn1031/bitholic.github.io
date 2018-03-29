@@ -10,9 +10,9 @@
     <meta name="keyword"  content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Example Post using Keynote Layout - bith01ic blog</title>
+    <title>JVM GC Algorithms - bith01ic blog</title>
 
-    <link rel="canonical" href="https://bitholic.org/2015/07/09/js-module-7day/">
+    <link rel="canonical" href="https://bitholic.org/2018/03/29/JVM_GC/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -127,45 +127,36 @@
 
     <!-- Image to hack wechat -->
 <!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/post-bg-js-version.jpg" width="0" height="0"> -->
+<!-- <img src="/" width="0" height="0"> -->
 
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        /*background-image: url('/img/post-bg-js-version.jpg')*/
-        height: 500px;
-        overflow: hidden;
-    }
-    header iframe{
-        width: 100%;
-        height: 100%;
-        border: 0;
+        background-image: url('/')
     }
 </style>
 <header class="intro-header" >
-    <iframe src="http://huangxuan.me/js-module-7day/"/>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                            <a class="tag" href="/tags/#前端开发" title="前端开发">前端开发</a>
-                            
-                            <a class="tag" href="/tags/#JavaScript" title="JavaScript">JavaScript</a>
-                            
-                        </div>
-                        <h1>Example Post using Keynote Layout</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
                         
+                        <a class="tag" href="/tags/#Java" title="Java">Java</a>
                         
-                        <h2 class="subheading">Keynote: JavaScript Modularization Journey</h2>
+                        <a class="tag" href="/tags/#JVM" title="JVM">JVM</a>
                         
-                        <span class="meta">Posted by Hux on July 9, 2015</span>
                     </div>
+                    <h1>JVM GC Algorithms</h1>
+                    
+                    
+                    <h2 class="subheading">常见JVM垃圾回收方法介绍</h2>
+                    
+                    <span class="meta">Posted by bith01ic on March 29, 2018</span>
                 </div>
             </div>
         </div>
-    </iframe>
+    </div>
 </header>
 
 <!-- Post Content -->
@@ -173,42 +164,20 @@
     <div class="container">
         <div class="row">
 
-            <!-- Post Container -->
-            <div class="post-container
+    <!-- Post Container -->
+            <div class="
                 col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1 ">
+                col-md-10 col-md-offset-1
+                post-container">
 
-				<blockquote>
-  <p>下滑这里查看更多内容</p>
-</blockquote>
+				<h2 id="关于gc">关于GC</h2>
 
-<p>7月9日，我在公司内部进行了名为「JavaScript 模块化七日谈」分享，并将该 Slides 分享到了微博上。出乎意料地，这篇微博先后被 @JS小组 @尤小右 @寸志 等近 200 人转发，阅读达到 10w，获得了还不错的评价。</p>
+<p>GC(Grabage Collection)是JVM中最核心的技术之一，随着多年的发展，GC算法出现了很多变种，适用于不同的环境，选择合适的算法对于新手来说往往是一个难点。虽然这些算法的实现有所不同，但GC的核心思想基本一致：<strong>找到所有“活”（使用）的对象，清除所有“死”（未使用）的对象。</strong></p>
 
-<p>于是，我决定将它重新发到我的博客上，并为它专门制作了适用于 Keynote 展示文稿的新布局。它能自动根据屏幕大小/旋转以一定比例填充屏幕，你也可以直接点击下方链接在新页面打开，来获得更好的、沉浸式的全屏体验</p>
+<h2 id="标记活的对象">标记“活”的对象</h2>
 
-<h3 id="watch-slides-"><a href="http://huangxuan.me/js-module-7day">Watch Slides →</a></h3>
+<p>所有的GC算法都要首先能找到“活”的对象，首先来看一幅图：</p>
 
-<p><img src="http://huangxuan.me/js-module-7day/attach/qrcode.png" width="350" height="350" /></p>
-
-<p><small class="img-hint">你也可以通过扫描二维码在手机上观看</small></p>
-
-<p>这个 Web Slides 开源在<a href="https://github.com/Huxpro/js-module-7day">我的 Github 上</a>，欢迎你帮助我完善这个展示文稿，你可以给我提 issue，可以 fork &amp; pull request。如果它能帮助到你了，希望你还能不吝啬 star 一下这个项目</p>
-
-<h3 id="catalog">Catalog</h3>
-
-<ul>
-  <li>第一日 上古时期 <strong><em>Module?</em></strong> 从设计模式说起</li>
-  <li>第二日 石器时代 <strong><em>Script Loader</em></strong> 只有封装性可不够，我们还需要加载</li>
-  <li>第三日 蒸汽朋克 <strong><em>Module Loader</em></strong> 模块化架构的工业革命</li>
-  <li>第四日 号角吹响 <strong><em>CommonJS</em></strong> 征服世界的第一步是跳出浏览器</li>
-  <li>第五日 双塔奇兵 <strong><em>AMD/CMD</em></strong> 浏览器环境模块化方案</li>
-  <li>第六日 精灵宝钻 <strong><em>Browserify/Webpack</em></strong> 大势所趋，去掉这层包裹！</li>
-  <li>第七日 王者归来 <strong><em>ES6 Module</em></strong> 最后的战役</li>
-</ul>
-
-<h3 id="thanks">Thanks</h3>
-
-<p><a href="http://lab.hakim.se/reveal-js">Reveal.js</a></p>
 
 
                 <hr>
@@ -219,13 +188,9 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2015/05/25/js-module-loader/" data-toggle="tooltip" data-placement="top" title="Example Post with Code Highlight">&larr; Previous Post</a>
+                        <a href="/2018/03/26/how-java-threads-works/" data-toggle="tooltip" data-placement="top" title="How Java Threads Works">&larr; Previous Post</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2015/09/22/js-version/" data-toggle="tooltip" data-placement="top" title="Example Post">Next Post &rarr;</a>
-                    </li>
                     
                 </ul>
 
@@ -235,19 +200,18 @@
                 
                 <!-- disqus 评论框 start -->
                 <div class="comment">
-                    <div id="disqus_thread" class="disqus-thread">
-
-                    </div>
+                    <div id="disqus_thread" class="disqus-thread"></div>
                 </div>
                 <!-- disqus 评论框 end -->
                 
 
             </div>
 
-            <!-- Sidebar Container -->
-            <div class="sidebar-container
+    <!-- Sidebar Container -->
+            <div class="
                 col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1 ">
+                col-md-10 col-md-offset-1
+                sidebar-container">
 
                 <!-- Featured Tags -->
                 
@@ -259,29 +223,6 @@
     </div>
 </article>
 
-<!-- resize header to fullscreen keynotes -->
-<script>
-    var $header = document.getElementsByTagName("header")[0];
-    function resize(){
-        /*
-         * leave 85px to both
-         * - told/imply users that there has more content below
-         * - let user can scroll in mobile device, seeing the keynote-view is unscrollable
-         */
-        $header.style.height = (window.innerHeight-85) + 'px';
-    }
-    document.addEventListener('DOMContentLoaded', function(){
-        resize();
-    })
-    window.addEventListener('load', function(){
-        resize();
-    })
-    window.addEventListener('resize', function(){
-        resize();
-    })
-    resize();
-</script>
-
 
 
 
@@ -290,8 +231,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "bitholic";
-    var disqus_identifier = "/2015/07/09/js-module-7day";
-    var disqus_url = "https://bitholic.org/2015/07/09/js-module-7day/";
+    var disqus_identifier = "/2018/03/29/JVM_GC";
+    var disqus_url = "https://bitholic.org/2018/03/29/JVM_GC/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
