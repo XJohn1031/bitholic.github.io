@@ -12,7 +12,7 @@
 
     <title>bith01ic blog</title>
 
-    <link rel="canonical" href="https://bitholic.org/">
+    <link rel="canonical" href="http://localhost:4000/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -161,11 +161,16 @@
         <div class="post-content-preview">
             关于GC
 
-GC(Grabage Collection)是JVM中最核心的技术之一，随着多年的发展，GC算法出现了很多变种，适用于不同的环境，选择合适的算法对于新手来说往往是一个难点。虽然这些算法的实现有所不同，但GC的核心思想基本一致：找到所有“活”（使用）的对象，清除所有“死”（未使用）的对象。
+GC(Grabage Collection)是JVM中最核心的技术之一，随着多年的发展，GC算法出现了很多变种，适用于不同的环境，选择合适的算法对于新手来说往往是一个难点。虽然这些算法的实现有所不同，但其核心思想都可总结为两步：
+
+
+  找到所有“活”（使用）的对象
+  清除所有“死”（未使用）的对象。
+
 
 标记“活”的对象
 
-所有的GC算法都要首先能找到“活”的对象，早期的GC使用引用计数的方式...
+所有的GC算法都要首先能找到“活”的对象，早期的GC...
         </div>
     </a>
     <p class="post-meta">
@@ -192,7 +197,7 @@ GC(Grabage Collection)是JVM中最核心的技术之一，随着多年的发展�
 1.1 并发（Concurrency）的历史：
 
 
-  在上古时期，那是的计算机还没有操作系统，程序只能从头到尾的运行并且能够获取计算机的所有资源。
+  在上古时期，那时的计算机还没有操作系统，程序只能从头到尾的运行并且能够获取计算机的所有资源。
   在操作系统出现以后，允许了多个程序作为不同的进程（processes）同时运行，操作系统给进程分配资源，线程间可以通过sockets, signal, shared memo...
         </div>
     </a>

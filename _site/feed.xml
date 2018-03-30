@@ -3,17 +3,22 @@
   <channel>
     <title>bith01ic blog</title>
     <description>bitholic blog</description>
-    <link>https://bitholic.org/</link>
-    <atom:link href="https://bitholic.org/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 29 Mar 2018 23:39:32 +0800</pubDate>
-    <lastBuildDate>Thu, 29 Mar 2018 23:39:32 +0800</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Fri, 30 Mar 2018 20:53:45 +0800</pubDate>
+    <lastBuildDate>Fri, 30 Mar 2018 20:53:45 +0800</lastBuildDate>
     <generator>Jekyll v3.3.0</generator>
     
       <item>
         <title>JVM GC Algorithms</title>
         <description>&lt;h2 id=&quot;关于gc&quot;&gt;关于GC&lt;/h2&gt;
 
-&lt;p&gt;GC(Grabage Collection)是JVM中最核心的技术之一，随着多年的发展，GC算法出现了很多变种，适用于不同的环境，选择合适的算法对于新手来说往往是一个难点。虽然这些算法的实现有所不同，但GC的核心思想基本一致：&lt;strong&gt;找到所有“活”（使用）的对象，清除所有“死”（未使用）的对象。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;GC(Grabage Collection)是JVM中最核心的技术之一，随着多年的发展，GC算法出现了很多变种，适用于不同的环境，选择合适的算法对于新手来说往往是一个难点。虽然这些算法的实现有所不同，但其核心思想都可总结为两步：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;找到所有“活”（使用）的对象&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;清除所有“死”（未使用）的对象。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
 
 &lt;h2 id=&quot;标记活的对象&quot;&gt;标记“活”的对象&lt;/h2&gt;
 
@@ -37,39 +42,173 @@
 
 &lt;h2 id=&quot;清除无用的对象&quot;&gt;清除无用的对象&lt;/h2&gt;
 
-&lt;p&gt;不同的GC算法主要的区别就在于如何清除无用对象，并且大致可以分为以下几类：&lt;/p&gt;
+&lt;p&gt;不同的GC算法主要的区别就在于如何清除无用对象，并且大致可以分为以下几种方式：&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;
-    &lt;p&gt;Sweep（清除）：这是简单的方式，它直接将标记为无用的对象释放。一般内部维持一个free-list，记录所有空闲的空间，但这种方式的问题在于会产生很多内存碎片，可能出现内存碎片加起来很大确出现OOM。&lt;/p&gt;
+    &lt;p&gt;Sweep（清除）：这是最简单的方式，它直接将标记为无用的对象释放。一般内部维持一个free-list，记录所有空闲的空间，这种方式的问题在于会产生很多的内存碎片，可能出现内存碎片加起来很大但确出现OOM的情况。&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/Mark_Sweep.png&quot; alt=&quot;Mark_Sweep&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Compact（压缩、整理）：这种方式弥补了Sweep的缺点，在执行为清除后，将所有的对象都拷贝到一块，避免了内存碎片的产生。这种方法的缺点是会增加STW的时间，因为拷贝对象和更改引用地址需要额外的时间。&lt;/p&gt;
+    &lt;p&gt;Compact（压缩/整理）：这种方式弥补了Sweep的缺点，在执行清除后，将所有活着的对象都复制到一块，避免了内存碎片的产生。这种方法的缺点是增加了STW的时间，因为拷贝对象和更改引用地址需要花费额外的时间。&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/Mark_Sweep_Compact.png&quot; alt=&quot;Mark_Sweep_Compact&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;Copy（复制）：这种方式和Compact很像，都是重新分配活对象的空间，但是Copy一般使用两个空间，一般称为存活区，每次GC时都将存活的对象放到其中一个存活区里，这种方式的好处是拷贝可以和标记同时进行，降低STW的时间，缺点是需要两个存活区，为了能够存下活的对象，他们都得足够大，这就浪费了一些内存空间。&lt;/p&gt;
+    &lt;p&gt;Copy（复制）：这种方式和Compact很像，都是重新分配活对象的空间，但是Copy一般使用两个空间，称为存活区，每次GC时都将存活的对象放到其中一个存活区里，这种方式的好处是拷贝可以和标记同时进行，降低了STW的时间，缺点是需要两个存活区，并且他们都得足够大以存放活对象，这就浪费了一些内存空间。&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/Mark_and_Copy.png&quot; alt=&quot;Mark_and_Copy&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;Inremental（增量）：增量不是一种新的算法，它的基本思想是如果GC一次性进行所有的垃圾清理会造成很长的STW，那么就将GC过程分为多个阶段，每次只收集部分区域。这种方式的缺陷是带来了线程切换的额外消耗，造成系统吞吐量下降。&lt;/li&gt;
+  &lt;li&gt;Inremental（增量）：增量不是一种新的算法，它的基本思想是如果GC一次性进行所有的垃圾清理会造成很长的STW，那么就将GC过程分为多个阶段，每次只用前面提到的算法来收集部分区域。这种方式的缺陷是带来了线程切换的额外消耗，造成系统吞吐量下降。&lt;/li&gt;
   &lt;li&gt;
-    &lt;p&gt;分代：分代也不是一种新的算法，它的基本思想是将内存分代，不同的代使用前面提到过的不同的算法。一般将内存分为新生代（Young Generation）和老年代（Old Generation），新生代一般存储刚产生的、存活周期短的对象，在新生代存活超过一定周期后对象会被放入老年代。在年轻代一般选择效率较高的复制算法，老年代一般选择标记-压缩算法。如：&lt;/p&gt;
+    &lt;p&gt;Generational（分代）：分代也不是一种新的算法，它的基本思想是将内存分代，不同的代使用前面提到过的不同的算法。一般将内存分为新生代（Young Generation）、老年代（Old/Tenured Generation），永久代（Permanent Generation），新生代一般存储刚产生的、存活周期短的对象，在新生代存活超过一定周期后对象会被放入老年代，永久代一般存储类型或方法信息（方法区），永久代现在也叫元空间（Metaspace）。在年轻代一般选择效率较高的复制算法，老年代一般选择标记-压缩算法。比较典型的分代如下示，后面再进行详细分析。&lt;/p&gt;
 
     &lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/GC_generations.png&quot; alt=&quot;GC_generations&quot; /&gt;&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&quot;详解分代&quot;&gt;详解分代&lt;/h2&gt;
+&lt;p&gt;在选择GC算法时经常要考虑三个非常重要的方面：&lt;/p&gt;
 
-&lt;p&gt;分代是一种重要的思想，&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Throughput（吞吐量）：在单位时间内能够处理的任务量，比如一些统计应用要求在一定时间内处理的任务量越多越好，允许个别任务响应很慢。&lt;/li&gt;
+  &lt;li&gt;Latency（响应速度）：任务的平均响应时间越短越好，比如一般的web应用要求最快的响应速度。&lt;/li&gt;
+  &lt;li&gt;Capacity（容量）：容量主要针对在使用一些小内存的机器时占用更少的内存。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;jvm上使用的垃圾回收器&quot;&gt;JVM上使用的垃圾回收器&lt;/h2&gt;
+
+&lt;h3 id=&quot;gc算法的分类&quot;&gt;GC算法的分类&lt;/h3&gt;
+&lt;p&gt;从不同的角度分析分代GC，可以将其分为不同的类型：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;按线程数分可以分为串行垃圾回收器（Serial）和并行垃圾回收器（Parallel）。串行垃圾回收器每次只使用一个线程进行垃圾回收，并行垃圾回收器每次将使用对个线程进行垃圾回收，在并行能力较强的CPU上，使用并行垃圾回收器可以减低STW时间。&lt;/li&gt;
+  &lt;li&gt;按工作模式分可以分为并发式垃圾回收器和独占式垃圾回收器。并发式垃圾回收器与应用程序交替工作，尽可能的减少STW时间。而独占式则不管这一点，开始后就一直运行直到回收结束。&lt;/li&gt;
+  &lt;li&gt;按工作的区域分又可以分为新生代垃圾回收器和老年代垃圾回收器。&lt;/li&gt;
+  &lt;li&gt;按内存碎片处理方式又可分为压缩式垃圾回收器和非压缩式垃圾回收器。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;先来看下目前JVM（Java 8）中常用的GC算法（后面会详细分析每一种）：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;新生代&lt;/th&gt;
+      &lt;th&gt;老年代&lt;/th&gt;
+      &lt;th&gt;JVM参数&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Incremental&lt;/td&gt;
+      &lt;td&gt;Incremental&lt;/td&gt;
+      &lt;td&gt;-Xincgc&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Serial&lt;/td&gt;
+      &lt;td&gt;Serial&lt;/td&gt;
+      &lt;td&gt;-XX:+UseSerialGC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Parallel Scavenge&lt;/td&gt;
+      &lt;td&gt;Serial&lt;/td&gt;
+      &lt;td&gt;-XX:+UseParallelGC -XX:-UseParallelOldGC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Parallel Scavenge&lt;/td&gt;
+      &lt;td&gt;Parallel Old&lt;/td&gt;
+      &lt;td&gt;-XX:+UseParallelGC -XX:+UseParallelOldGC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Serial&lt;/td&gt;
+      &lt;td&gt;CMS&lt;/td&gt;
+      &lt;td&gt;-XX:-UseParNewGC -XX:+UseConcMarkSweepGC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Parallel New&lt;/td&gt;
+      &lt;td&gt;CMS&lt;/td&gt;
+      &lt;td&gt;-XX:+UseParNewGC -XX:+UseConcMarkSweepGC&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;G1&lt;/td&gt;
+      &lt;td&gt;G1&lt;/td&gt;
+      &lt;td&gt;-XX:+UseG1GC&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h4 id=&quot;如何查看gc信息&quot;&gt;如何查看GC信息&lt;/h4&gt;
+&lt;ol&gt;
+  &lt;li&gt;可通过JDK自带的工具jvisualvm查看可视化的GC过程&lt;/li&gt;
+  &lt;li&gt;可通过设置JVM启动参数&lt;code class=&quot;highlighter-rouge&quot;&gt;-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps&lt;/code&gt;来打印GC信息。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;在翻阅文档的时候无意发现：JDK参数中-X开头的参数表示非标准的功能设置并且可能在后续JDK版本中被移除。-XX开头的参数表示非稳定的功能设置，行为可能在未提醒用户的情况下被改变。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&quot;minor-gc-major-gc-与-full-gc&quot;&gt;Minor GC 、Major GC 与 Full GC&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Minor GC: 一般将发生在新生代（包括Eden和Survivor区域）的内存回收称为 Minor GC。关于Minor GC需要注意的几点有：
+    &lt;ol&gt;
+      &lt;li&gt;当JVM无法为一个新的对象分配空间时会触发 Minor GC，比如当Eden区满了的时候。&lt;/li&gt;
+      &lt;li&gt;在执行 Minor GC 操作时并不会影响到永久代，从永久代到年轻代的引用会被当做GC ROOTS，年轻代到永久代的引用在标记阶段会被直接忽略。&lt;/li&gt;
+      &lt;li&gt;可能与感官相违背的是 Minor GC 带来的 STW 时间并不会特别久，因为新生代中大部分的对象都不符合GC存活条件，反而执行GC的过程会很快。&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Major GC: 清理老年代&lt;/li&gt;
+  &lt;li&gt;Full GC: 清理整个堆空间，包括新生代、老年代和元空间，通常发生在触发一次Minor GC时，发现统计数据说之前Minor GC的平均晋升大小比目前老年代的剩余的空间大，则不会触发Minor GC而改为触发Full GC。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;serial-gc&quot;&gt;Serial GC&lt;/h4&gt;
+
+&lt;p&gt;串行垃圾回收器在新生代使用 mark-copy 算法，在老年代使用 mark-sweep-compact 算法。这种GC方式是单线程的，不能充分利用多核CPU的并行能力，并且在其执行时，会一直STW。这种方式的实现相对简单，没有线程切换的开销，在单CPU或较小内存的机器上性能表现可以超过并行回收器和并发回收器。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/SerialGC.png&quot; alt=&quot;SerialGC&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下面分析几个Serial GC的日志：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;2018-03-29T11:32:52.768-0800: 74.708: [GC (Allocation Failure) 2018-03-29T11:32:52.768-0800: 74.708: [DefNew: 35074K-&amp;gt;2K(39424K), 0.0008172 secs] 37049K-&amp;gt;1977K(126848K), 0.0008542 secs] [Times: user=0.06 sys=0.00, real=0.06 secs]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;2018-03-29T11:32:52.768-0800&lt;/code&gt;: GC开始的时间&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;74.708&lt;/code&gt;: 相对于JVM启动时的GC开始时间，单位为秒&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;GC&lt;/code&gt;: 区分Minor GC和Full GC, 这里表示Minor GC&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Allocation Failure&lt;/code&gt;: 发生GC的原因，这里表示触发GC的原因是新生代分配新的内存空间失败。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;DefNew&lt;/code&gt;: 使用的垃圾回收器名称，这个奇怪的名字表示单线程的mark-copy STW收集器。&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;35074K-&amp;gt;2K&lt;/code&gt;: 垃圾回收前后新生代的大小&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(39424K)&lt;/code&gt;: 新生代的总大小&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;37049K-&amp;gt;1977K&lt;/code&gt;: 垃圾回收前后堆的大小&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(126848K)&lt;/code&gt;: 堆的总大小&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;0008542 secs&lt;/code&gt;: GC执行的时间&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;[Times: user=0.00 sys=0.00, real=0.00 secs]&lt;/code&gt;: 不同GC事件占据的时间，user表示垃圾回收线程消耗的CPU时间，sys表示花费在系统调用或等待系统事件的时间，real表示STW的时间。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&quot;parallel-gc&quot;&gt;Parallel GC&lt;/h4&gt;
+
+&lt;p&gt;并行垃圾回收器在新生代使用 mark-copy 算法，在老年代使用 mark-sweep-compact 算法，但是这种方式会使用多个线程来执行垃圾回收动作，因此称为“Parallel”，这种方式的回收时间相对较少，可通过&lt;code class=&quot;highlighter-rouge&quot;&gt;-XX:ParallelGCThreads=N&lt;/code&gt;调整Parallel GC的线程数，默认值是机器CPU的核数。这种方式可以最大化吞吐量。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/ParallelGC.png&quot; alt=&quot;ParallelGC&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;cms-concurrent-mark-and-sweep&quot;&gt;CMS (Concurrent Mark and Sweep)&lt;/h4&gt;
+
+&lt;p&gt;CMS垃圾回收器在年轻代使用parallel mark-copy 算法，在老年代使用 concurrent mark-sweep 算法。这种算法主要解决的问题是减少清理老年代的暂停时间，他并不会整理老年代的内存空间，使用free-list来管理空闲内存，在mark-sweep阶段的大部分操作都与应用程序并发运行。这种方式可以做大话降低延迟。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/img/in-post/JVM_GC_Algorithms/CMS.png&quot; alt=&quot;CMS&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;CMS在对老年代执行垃圾回收时分为以下几个步骤：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;起始标记：这个阶段会STW，这个阶段的目的是标记所有由GC ROOTS或年轻代指向的第一个引用。&lt;/li&gt;
+  &lt;li&gt;并发标记：&lt;/li&gt;
+&lt;/ol&gt;
 </description>
         <pubDate>Thu, 29 Mar 2018 00:00:00 +0800</pubDate>
-        <link>https://bitholic.org/2018/03/29/JVM_GC_Algorithms/</link>
-        <guid isPermaLink="true">https://bitholic.org/2018/03/29/JVM_GC_Algorithms/</guid>
+        <link>http://localhost:4000/2018/03/29/JVM_GC_Algorithms/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/29/JVM_GC_Algorithms/</guid>
         
         <category>Java</category>
         
@@ -87,7 +226,7 @@
 &lt;h3 id=&quot;11-并发concurrency的历史&quot;&gt;1.1 并发（Concurrency）的历史：&lt;/h3&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;在上古时期，那是的计算机还没有操作系统，程序只能从头到尾的运行并且能够获取计算机的所有资源。&lt;/li&gt;
+  &lt;li&gt;在上古时期，那时的计算机还没有操作系统，程序只能从头到尾的运行并且能够获取计算机的所有资源。&lt;/li&gt;
   &lt;li&gt;在操作系统出现以后，允许了多个程序作为不同的&lt;strong&gt;进程（processes）&lt;/strong&gt;同时运行，操作系统给进程分配资源，线程间可以通过sockets, signal, shared memory, files等进行通信。&lt;/li&gt;
   &lt;li&gt;随着计算机程序复杂度的提高，同一个进程也需要在同时运行不同的任务，这就激发了线程（threads）的出现。线程允许在同一个进程内并发执行多个程序流，并且它们共享进程的资源。&lt;/li&gt;
 &lt;/ol&gt;
@@ -386,8 +525,8 @@ thread6 state: TERMINATED
 &lt;/ol&gt;
 </description>
         <pubDate>Mon, 26 Mar 2018 00:00:00 +0800</pubDate>
-        <link>https://bitholic.org/2018/03/26/how-java-threads-works/</link>
-        <guid isPermaLink="true">https://bitholic.org/2018/03/26/how-java-threads-works/</guid>
+        <link>http://localhost:4000/2018/03/26/how-java-threads-works/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/03/26/how-java-threads-works/</guid>
         
         <category>Concurrency</category>
         
